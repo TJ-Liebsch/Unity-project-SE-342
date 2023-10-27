@@ -3,29 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Questions : MonoBehaviour
+public class Questions : MonoBehaviour, IDropHandler
 {
     //This allows us to use the gameObjects of all the wrong questions
-    public GameObject[] wrongAnswers;
+    //public GameObject[] wrongAnswers;
 
     //This allows us to use the correct answers game object
-    public GameObject correct;
+    public GameObject[] correct;
 
-    //This allows us to use the draggingObjects transform.position numbers
-    public RectTransform draggingObjectRectTransform;
-
-    private void Awake()
+    //This happens whenever you drop an object onto it
+    public void OnDrop(PointerEventData eventData)
     {
-        //changes the type of transform into RectTransform
-        //allows the draggingObject to store the transform of the object that holds the C# file
-        draggingObjectRectTransform = transform as RectTransform;
-    }
+        Debug.Log("On Drop");
 
-    void Update()
-    {
-        if(((correct.transform.position.x + 50) <= draggingObjectRectTransform.position.x) && ((correct.transform.position.x - 50) >= draggingObjectRectTransform.position.x))
+        //if there is an object on it, then snap that obect to the center
+        if (eventData.pointerDrag != null) 
         {
-            Debug.Log("You chose the correct answer!");
-        }    
+            eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
+
+            //if it has no correct answers, does not let it pass
+            if (correct.Length != 0)
+            {
+                //if the name of the correct answer and pointerDrag equal then it is the correct answer
+                if (eventData.pointerDrag.name == correct[0].name || eventData.pointerDrag.name == correct[1].name)
+                {
+                    Debug.Log("You selected the correct answer. You got it right!");
+                }
+                else
+                {
+                    //touchingCorrectPiece = false;
+                    Debug.Log("You selected the wrong answer. Try again.");
+                }
+            }
+        }
+        //throw new System.NotImplementedException();
     }
+
 }
