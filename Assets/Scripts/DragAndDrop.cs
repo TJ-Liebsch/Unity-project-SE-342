@@ -12,11 +12,15 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IEndDragHandler, ID
     [SerializeField]
     private Canvas canvas;
 
+    [SerializeField]
+    public bool correctAnswer;
+
     private CanvasGroup canvasGroup;
 
     //This is based off the object that holds the C# file
     private RectTransform draggingObjectRectTransform;
     private Vector3 velocity = Vector3.zero;
+
     
     private void Awake()
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Questions : MonoBehaviour, IDropHandler
 {
@@ -9,7 +10,14 @@ public class Questions : MonoBehaviour, IDropHandler
     //public GameObject[] wrongAnswers;
 
     //This allows us to use the correct answers game object
-    public GameObject[] correct;
+    public GameObject correct;
+    public GameObject checkmark;
+
+    void Start()
+    {
+        //makes the checkmark invisible
+        checkmark.gameObject.GetComponent<Image>().enabled = false;
+    }
 
     //This happens whenever you drop an object onto it
     public void OnDrop(PointerEventData eventData)
@@ -21,20 +29,20 @@ public class Questions : MonoBehaviour, IDropHandler
         {
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
 
-            //if it has no correct answers, does not let it pass
-            if (correct.Length != 0)
+            //if the name of the correct answer and pointerDrag equal then it is the correct answer
+            if (eventData.pointerDrag.name == correct.name)
             {
-                //if the name of the correct answer and pointerDrag equal then it is the correct answer
-                if (eventData.pointerDrag.name == correct[0].name || eventData.pointerDrag.name == correct[1].name)
-                {
-                    Debug.Log("You selected the correct answer. You got it right!");
-                }
-                else
-                {
-                    //touchingCorrectPiece = false;
-                    Debug.Log("You selected the wrong answer. Try again.");
-                }
+                checkmark.gameObject.GetComponent<Image>().enabled = true;
+                Debug.Log("You selected the correct answer. You got it right!");
+                //makes checkmark visible once they answer correctly
             }
+            else
+            {
+                //touchingCorrectPiece = false;
+                checkmark.gameObject.GetComponent<Image>().enabled = false;
+                Debug.Log("You selected the wrong answer. Try again.");
+            }
+
         }
         //throw new System.NotImplementedException();
     }
