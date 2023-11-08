@@ -12,11 +12,15 @@ public class Questions : MonoBehaviour, IDropHandler
     //This allows us to use the correct answers game object
     public GameObject correct;
     public GameObject checkmark;
+    public RectTransform playerPos;
+
+    private RectTransform originalPos;
 
     void Start()
     {
         //makes the checkmark invisible
         checkmark.gameObject.GetComponent<Image>().enabled = false;
+        originalPos = playerPos;
     }
 
     //This happens whenever you drop an object onto it
@@ -33,6 +37,10 @@ public class Questions : MonoBehaviour, IDropHandler
             if (eventData.pointerDrag.name == correct.name)
             {
                 checkmark.gameObject.GetComponent<Image>().enabled = true;
+                
+                // This causes the player sprite to move
+                playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x + 200, playerPos.anchoredPosition.y);
+                
                 Debug.Log("You selected the correct answer. You got it right!");
                 //makes checkmark visible once they answer correctly
             }
@@ -40,6 +48,10 @@ public class Questions : MonoBehaviour, IDropHandler
             {
                 //touchingCorrectPiece = false;
                 checkmark.gameObject.GetComponent<Image>().enabled = false;
+
+                Debug.Log("The original position of the player is " + originalPos.anchoredPosition);
+                playerPos.anchoredPosition = originalPos.anchoredPosition;
+
                 Debug.Log("You selected the wrong answer. Try again.");
             }
 
