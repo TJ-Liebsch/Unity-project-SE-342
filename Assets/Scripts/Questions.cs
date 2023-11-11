@@ -13,14 +13,16 @@ public class Questions : MonoBehaviour, IDropHandler
     public GameObject correct;
     public GameObject checkmark;
     public RectTransform playerPos;
+    private bool questionAnswered = false;
 
-    private RectTransform originalPos;
+    //private RectTransform originalPos;
 
     void Start()
     {
         //makes the checkmark invisible
         checkmark.gameObject.GetComponent<Image>().enabled = false;
-        originalPos = playerPos;
+
+        //originalPos = playerPos;
     }
 
     //This happens whenever you drop an object onto it
@@ -36,21 +38,33 @@ public class Questions : MonoBehaviour, IDropHandler
             //if the name of the correct answer and pointerDrag equal then it is the correct answer
             if (eventData.pointerDrag.name == correct.name)
             {
+                // This causes the promt to only happen once
+                if (questionAnswered == false)
+                {
+                    // This causes the player sprite to move
+                    playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x + 200, playerPos.anchoredPosition.y);
+                }
+
                 checkmark.gameObject.GetComponent<Image>().enabled = true;
-                
-                // This causes the player sprite to move
-                playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x + 200, playerPos.anchoredPosition.y);
-                
+                questionAnswered = true;
+
                 Debug.Log("You selected the correct answer. You got it right!");
                 //makes checkmark visible once they answer correctly
             }
             else
             {
-                //touchingCorrectPiece = false;
-                checkmark.gameObject.GetComponent<Image>().enabled = false;
+                // This causes the promt to only happen once
+                if (questionAnswered == true)
+                {
+                    // This causes the player sprite to move iversersly to how they moved before
+                    playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x - 200, playerPos.anchoredPosition.y);
+                }
 
-                Debug.Log("The original position of the player is " + originalPos.anchoredPosition);
-                playerPos.anchoredPosition = originalPos.anchoredPosition;
+                checkmark.gameObject.GetComponent<Image>().enabled = false;
+                questionAnswered = false;
+
+                //Debug.Log("The original position of the player is " + originalPos);
+                //playerPos.anchoredPosition = originalPos;
 
                 Debug.Log("You selected the wrong answer. Try again.");
             }
