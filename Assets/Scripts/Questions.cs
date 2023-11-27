@@ -12,8 +12,8 @@ public class Questions : MonoBehaviour, IDropHandler
     //This allows us to use the correct answers game object
     public GameObject correct;
     public GameObject checkmark;
+    public GameObject wrong;
     public GameObject disappearingText;
-    public RectTransform playerPos;
 
     //private RectTransform originalPos;
 
@@ -21,8 +21,7 @@ public class Questions : MonoBehaviour, IDropHandler
     {
         //makes the checkmark invisible
         checkmark.gameObject.GetComponent<Image>().enabled = false;
-
-        //originalPos = playerPos;
+        wrong.gameObject.GetComponent<Image>().enabled = false;
     }
 
     //This happens whenever you drop an object onto it
@@ -39,6 +38,7 @@ public class Questions : MonoBehaviour, IDropHandler
             if (eventData.pointerDrag.name == correct.name)
             {
                 checkmark.gameObject.GetComponent<Image>().enabled = true;
+                wrong.gameObject.GetComponent<Image>().enabled = false;
                 disappearingText.gameObject.GetComponent<Text>().enabled = false;
 
                 Debug.Log("You selected the correct answer. You got it right!");
@@ -47,6 +47,7 @@ public class Questions : MonoBehaviour, IDropHandler
             else
             {
                 checkmark.gameObject.GetComponent<Image>().enabled = false;
+                wrong.gameObject.GetComponent<Image>().enabled = true;
                 disappearingText.gameObject.GetComponent<Text>().enabled = false;
 
                 //Debug.Log("The original position of the player is " + originalPos);

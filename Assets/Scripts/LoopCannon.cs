@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class LoopEffect : MonoBehaviour, IDropHandler
+public class LoopCannon : MonoBehaviour, IDropHandler
 {
     //This allows us to use the gameObjects of all the wrong questions
     //public GameObject[] wrongAnswers;
@@ -14,7 +14,12 @@ public class LoopEffect : MonoBehaviour, IDropHandler
     public GameObject checkmark;
     public GameObject wrong;
     public GameObject disappearingText;
-    public RectTransform playerPos;
+    public GameObject target;
+    public GameObject brokenTarget1;
+    public GameObject brokenTarget2;
+    public GameObject brokenTarget3;
+    public GameObject brokenTarget4;
+    public RectTransform cannonball;
     private bool questionAnswered = false;
 
     //private RectTransform originalPos;
@@ -24,6 +29,11 @@ public class LoopEffect : MonoBehaviour, IDropHandler
         //makes the checkmark invisible
         checkmark.gameObject.GetComponent<Image>().enabled = false;
         wrong.gameObject.GetComponent<Image>().enabled = false;
+        target.gameObject.GetComponent<Image>().enabled = true;
+        brokenTarget1.gameObject.GetComponent<Image>().enabled = false;
+        brokenTarget2.gameObject.GetComponent<Image>().enabled = false;
+        brokenTarget3.gameObject.GetComponent<Image>().enabled = false;
+        brokenTarget4.gameObject.GetComponent<Image>().enabled = false;
 
         //originalPos = playerPos;
     }
@@ -44,6 +54,7 @@ public class LoopEffect : MonoBehaviour, IDropHandler
                 // This causes the promt to only happen once
                 if (questionAnswered == false)
                 {
+                    // This causes the cannonball sprite to move
                     StartCoroutine(correctAnswer());
                 }
 
@@ -60,13 +71,18 @@ public class LoopEffect : MonoBehaviour, IDropHandler
                 // This causes the promt to only happen once
                 if (questionAnswered == true)
                 {
-                    // This causes the player sprite to move iversersly to how they moved before
-                    playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x - 300, playerPos.anchoredPosition.y);
+                    // This causes the cannonball sprite to move iversersly to how they moved before
+                    cannonball.anchoredPosition = new Vector2(cannonball.anchoredPosition.x - 435, cannonball.anchoredPosition.y - 158);
                 }
 
                 checkmark.gameObject.GetComponent<Image>().enabled = false;
                 wrong.gameObject.GetComponent<Image>().enabled = true;
                 disappearingText.gameObject.GetComponent<Text>().enabled = false;
+                target.gameObject.GetComponent<Image>().enabled = true;
+                brokenTarget1.gameObject.GetComponent<Image>().enabled = false;
+                brokenTarget2.gameObject.GetComponent<Image>().enabled = false;
+                brokenTarget3.gameObject.GetComponent<Image>().enabled = false;
+                brokenTarget4.gameObject.GetComponent<Image>().enabled = false;
                 questionAnswered = false;
 
                 //Debug.Log("The original position of the player is " + originalPos);
@@ -84,52 +100,42 @@ public class LoopEffect : MonoBehaviour, IDropHandler
         //Print the time of when the function is first called.
         Debug.Log("Started Coroutine at timestamp : " + Time.time);
 
-        //yield on a new YieldInstruction that waits for 0.5 seconds.
-        yield return new WaitForSeconds(0.5f);
+        //yield on a new YieldInstruction that waits for 0.2 seconds.
+        yield return new WaitForSeconds(0.2f);
 
         // This causes the player sprite to move
-        playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x + 100, playerPos.anchoredPosition.y);
-
-        //yield on a new YieldInstruction that waits for 0.5 seconds.
-        yield return new WaitForSeconds(0.5f);
-
-        // This causes the player sprite to move
-        playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x + 100, playerPos.anchoredPosition.y);
+        cannonball.anchoredPosition = new Vector2(cannonball.anchoredPosition.x + 435, cannonball.anchoredPosition.y + 158);
 
         //yield on a new YieldInstruction that waits for 0.5 seconds.
         yield return new WaitForSeconds(0.5f);
 
+        cannonball.anchoredPosition = new Vector2(cannonball.anchoredPosition.x - 435, cannonball.anchoredPosition.y - 158);
+
+        //yield on a new YieldInstruction that waits for 0.2 seconds.
+        yield return new WaitForSeconds(0.2f);
+
         // This causes the player sprite to move
-        playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x + 100, playerPos.anchoredPosition.y);
+        cannonball.anchoredPosition = new Vector2(cannonball.anchoredPosition.x + 435, cannonball.anchoredPosition.y + 158);
+
+        //yield on a new YieldInstruction that waits for 0.5 seconds.
+        yield return new WaitForSeconds(0.5f);
+
+        cannonball.anchoredPosition = new Vector2(cannonball.anchoredPosition.x - 435, cannonball.anchoredPosition.y - 158);
+
+        //yield on a new YieldInstruction that waits for 0.2 seconds.
+        yield return new WaitForSeconds(0.2f);
+
+        // This causes the player sprite to move
+        cannonball.anchoredPosition = new Vector2(cannonball.anchoredPosition.x + 435, cannonball.anchoredPosition.y + 158);
+
+        target.gameObject.GetComponent<Image>().enabled = false;
+        brokenTarget1.gameObject.GetComponent<Image>().enabled = true;
+        brokenTarget2.gameObject.GetComponent<Image>().enabled = true;
+        brokenTarget3.gameObject.GetComponent<Image>().enabled = true;
+        brokenTarget4.gameObject.GetComponent<Image>().enabled = true;
 
         //After we have waited 5 seconds print the time again.
         Debug.Log("Finished Coroutine at timestamp : " + Time.time);
     }
 
-    /*IEnumerator wrongAnswer()
-    {
-        //Print the time of when the function is first called.
-        Debug.Log("Started Coroutine at timestamp : " + Time.time);
-
-        //yield on a new YieldInstruction that waits for 0.5 seconds.
-        yield return new WaitForSeconds(0.5f);
-
-        // This causes the player sprite to move
-        playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x - 100, playerPos.anchoredPosition.y);
-
-        //yield on a new YieldInstruction that waits for 0.5 seconds.
-        yield return new WaitForSeconds(0.5f);
-
-        // This causes the player sprite to move
-        playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x - 100, playerPos.anchoredPosition.y);
-
-        //yield on a new YieldInstruction that waits for 0.5 seconds.
-        yield return new WaitForSeconds(0.5f);
-
-        // This causes the player sprite to move
-        playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x - 100, playerPos.anchoredPosition.y);
-
-        //After we have waited 5 seconds print the time again.
-        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
-    }*/
 }

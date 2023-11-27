@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class IfStatementEffect : MonoBehaviour, IDropHandler
+public class Cannon : MonoBehaviour, IDropHandler
 {
     //This allows us to use the gameObjects of all the wrong questions
     //public GameObject[] wrongAnswers;
@@ -14,7 +14,7 @@ public class IfStatementEffect : MonoBehaviour, IDropHandler
     public GameObject checkmark;
     public GameObject wrong;
     public GameObject disappearingText;
-    public RectTransform playerPos;
+    public RectTransform cannonball;
     private bool questionAnswered = false;
 
     //private RectTransform originalPos;
@@ -44,8 +44,8 @@ public class IfStatementEffect : MonoBehaviour, IDropHandler
                 // This causes the promt to only happen once
                 if (questionAnswered == false)
                 {
-                    // This causes the player sprite to move
-                    playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x + 200, playerPos.anchoredPosition.y);
+                    // This causes the cannonball sprite to move
+                    cannonball.anchoredPosition = new Vector2(cannonball.anchoredPosition.x + 435, cannonball.anchoredPosition.y + 158);
                 }
 
                 checkmark.gameObject.GetComponent<Image>().enabled = true;
@@ -61,8 +61,8 @@ public class IfStatementEffect : MonoBehaviour, IDropHandler
                 // This causes the promt to only happen once
                 if (questionAnswered == true)
                 {
-                    // This causes the player sprite to move iversersly to how they moved before
-                    playerPos.anchoredPosition = new Vector2(playerPos.anchoredPosition.x - 200, playerPos.anchoredPosition.y);
+                    // This causes the cannonball sprite to move iversersly to how they moved before
+                    cannonball.anchoredPosition = new Vector2(cannonball.anchoredPosition.x - 435, cannonball.anchoredPosition.y - 158);
                 }
 
                 checkmark.gameObject.GetComponent<Image>().enabled = false;
